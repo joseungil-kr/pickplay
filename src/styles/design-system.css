@@ -299,3 +299,14 @@
 .picker-stage p { margin:0; color:var(--color-muted); }
 .picker-stage .button { width:min(100%,22rem); }
 .picker-remaining { margin:var(--space-2) 0 0; color:var(--color-ink); font-size:.875rem; font-weight:700; line-height:1.5; }
+/* G03: paper draw */
+.paper-game { margin-top:var(--space-3); }
+.paper-stage { margin-top:var(--space-3); }
+.paper-stage > p { margin:0 0 var(--space-3); color:var(--color-muted); font-size:.875rem; }
+.paper-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(76px,1fr)); gap:.75rem; }
+.paper-card { min-height:88px; padding:.5rem; border:1px solid var(--color-ink); border-radius:var(--radius-sm); color:var(--color-ink); background:linear-gradient(135deg,#fff 0 48%,#edf3ff 49% 51%,#fff 52%); font:inherit; font-weight:800; cursor:pointer; transform:rotate(var(--paper-tilt,0deg)); transition:transform .18s ease,background .18s ease; }
+.paper-card:nth-child(3n+1){--paper-tilt:-2deg}.paper-card:nth-child(3n+2){--paper-tilt:2deg}.paper-card:hover,.paper-card:focus-visible{transform:translateY(-3px) rotate(var(--paper-tilt,0deg));border-color:var(--color-play)}
+.paper-card--open { color:#fff; background:var(--color-play); animation:paper-open .42s ease both; }
+@keyframes paper-open { 50%{transform:scaleX(.08) rotate(3deg)}100%{transform:scaleX(1) rotate(0)} }
+@media (prefers-reduced-motion:reduce){.paper-card{transition:none}.paper-card--open{animation:none}}
+.paper-grid{grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:1rem}.paper-card{min-height:116px;padding:1rem;font-size:1rem}.paper-next{width:100%;margin-top:var(--space-3)}@media(min-width:48rem){.paper-grid{grid-template-columns:repeat(auto-fill,minmax(132px,1fr))}.paper-card{min-height:132px}}
