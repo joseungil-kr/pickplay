@@ -310,3 +310,171 @@
 @keyframes paper-open { 50%{transform:scaleX(.08) rotate(3deg)}100%{transform:scaleX(1) rotate(0)} }
 @media (prefers-reduced-motion:reduce){.paper-card{transition:none}.paper-card--open{animation:none}}
 .paper-grid{grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:1rem}.paper-card{min-height:116px;padding:1rem;font-size:1rem}.paper-next{width:100%;margin-top:var(--space-3)}@media(min-width:48rem){.paper-grid{grid-template-columns:repeat(auto-fill,minmax(132px,1fr))}.paper-card{min-height:132px}}
+
+/* G01 production UI pass: keep the game, not the surrounding chrome, as the focal point. */
+.game-shell:has(.wheel-game) .game-shell__intro { padding-bottom: var(--space-2); }
+.game-shell:has(.wheel-game) .game-shell__intro h1 { font-size: clamp(1.75rem, 7vw, 2.5rem); }
+.game-shell:has(.wheel-game) .game-shell__description { max-width: 32rem; }
+.game-shell:has(.wheel-game) .game-shell__meta { margin-top: var(--space-2); font-size: .8125rem; }
+.game-shell:has(.wheel-game) .game-shell__rules { gap: .375rem; margin-top: var(--space-2); }
+.game-shell:has(.wheel-game) .game-shell__rules li { font-size: .8125rem; }
+.game-shell:has(.wheel-game) .game-shell__section { padding-block: var(--space-3); }
+.game-shell:has(.wheel-game) .game-shell__section:has(.wheel-game) { border-bottom: 0; padding-bottom: var(--space-2); }
+.wheel-game { margin-top: var(--space-2); }
+.wheel-game .wheel-form__row { margin-top: .5rem; }
+.wheel-game .wheel-players { gap: .375rem; }
+.wheel-game .wheel-players li { background: var(--color-canvas-subtle); }
+.wheel-game .wheel-players button { min-width: 40px; min-height: 40px; color: var(--color-ink-muted); }
+.wheel-game .wheel-players button:hover, .wheel-game .wheel-players button:focus-visible { color: #b42318; background: #fff1f0; }
+.wheel-stage { margin-top: 0; padding: var(--space-2) 0 var(--space-3); border-top: 1px solid var(--color-line); }
+.wheel-stage canvas { width: min(100%, 26rem); border: 3px solid #102a43; border-radius: 50%; background: #fff; }
+.wheel-pointer { margin-bottom: -.375rem; border-right-width: 1rem; border-left-width: 1rem; border-top: 1.75rem solid #e85d04; filter: drop-shadow(0 1px 0 #102a43); }
+.wheel-spin { width: min(100%, 26rem); min-height: 52px; margin-top: var(--space-2); font-size: 1.0625rem; }
+.game-shell__section:has(.wheel-game) ~ .game-shell__section .wheel-result { margin-top: 0; color: var(--color-ink-muted); }
+.game-shell__section:has(.wheel-game) ~ .game-shell__section .wheel-result strong { border-color: #155eef; color: #073ea6; background: #eaf1ff; font-size: clamp(1.375rem, 6vw, 1.75rem); letter-spacing: -.04em; }
+.wheel-result--win strong { animation: wheel-winner .42s ease-out both; }
+@keyframes wheel-winner { 0% { transform: scale(.92); opacity: .45; } 65% { transform: scale(1.06); } 100% { transform: scale(1); opacity: 1; } }
+.game-shell__section:has(.wheel-game) ~ .game-shell__section .wheel-history { color: var(--color-ink-muted); font-size: .8125rem; font-weight: 700; }
+.game-shell__section:has(.wheel-game) ~ .game-shell__actions { padding-top: var(--space-3); }
+.game-shell__section:has(.wheel-game) ~ .game-shell__business { margin-top: var(--space-3); }
+.game-shell__section:has(.wheel-game) ~ .game-shell__business .button { min-height: 44px; }
+@media (min-width: 48rem) { .wheel-stage canvas { width: min(100%, 28rem); } .wheel-spin { width: 28rem; } }
+@media (prefers-reduced-motion: reduce) { .wheel-result--win strong { animation: none; } }
+/* Production GameShell: preserve sections for accessibility without exposing build-time labels. */
+.game-shell--production { padding-top: var(--space-3); }
+.game-shell--production .game-shell__intro { border-bottom: 0; padding-bottom: var(--space-2); }
+.game-shell--production .game-shell__eyebrow { margin-bottom: .25rem; }
+.game-shell--production .game-shell__intro h1 { margin: 0; }
+.game-shell--production .game-shell__description { margin: .375rem 0 0; }
+.game-shell--production .game-shell__game-info { display: flex; align-items: center; gap: var(--space-3); margin-top: var(--space-2); }
+.game-shell--production .game-shell__meta { gap: .375rem; margin: 0; }
+.game-shell--production .game-shell__meta div { display: block; }
+.game-shell--production .game-shell__meta dt { display: none; }
+.game-shell--production .game-shell__meta dd { color: var(--color-ink-muted); font-size: .8125rem; font-weight: 700; }
+.game-shell--production .game-shell__meta div + div::before { color: var(--color-ink-muted); content: '·'; margin-right: .375rem; }
+.game-shell__rules-details { color: var(--color-ink-muted); font-size: .8125rem; }
+.game-shell__rules-details summary { cursor: pointer; font-weight: 800; }
+.game-shell__rules-details .game-shell__rules { margin-top: var(--space-2); }
+.game-shell--production .game-shell__section { border-bottom: 0; padding-block: var(--space-2); }
+.game-shell--production .game-shell__play-area { min-height: 0; padding-top: 0; }
+.game-shell--production .game-shell__result-area { margin-inline: 0; padding-inline: 0; background: transparent; }
+.game-shell--production .wheel-game { margin-top: 0; }
+.game-shell--production .wheel-status { margin: .375rem 0; }
+.game-shell--production .wheel-exclude { margin-top: var(--space-2); }
+.game-shell--production .wheel-stage { border-top: 0; padding-top: 0; }
+.game-shell--production .wheel-stage canvas { width: min(100%, 23rem); }
+.game-shell--production .wheel-spin { width: min(100%, 23rem); }
+.game-shell--production .wheel-result { border-top: 1px solid var(--color-line); padding-top: var(--space-3); }
+@media (min-width: 48rem) { .game-shell--production { max-width: 44rem; } .game-shell--production .wheel-stage canvas { width: 26rem; } .game-shell--production .wheel-spin { width: 26rem; } }
+/* DS-C01: shared tokens. Existing light-page tokens remain the default. */
+:root {
+  --pp-page: #f8fafc;
+  --pp-page-strong: #ffffff;
+  --pp-stage: #07111f;
+  --pp-stage-soft: #0b1628;
+  --pp-stage-raised: #101d31;
+  --pp-stage-hover: #16253d;
+  --pp-border-light: #dbe3ec;
+  --pp-border-dark: rgb(255 255 255 / 11%);
+  --pp-border-dark-strong: rgb(255 255 255 / 20%);
+  --pp-text: #0f2742;
+  --pp-text-soft: #40556d;
+  --pp-text-muted: #738397;
+  --pp-stage-text: #f8fafc;
+  --pp-stage-text-soft: #a6b4c8;
+  --pp-stage-text-muted: #718198;
+  --pp-primary: #2563eb;
+  --pp-primary-hover: #3974f5;
+  --pp-primary-active: #1e54c7;
+  --pp-win: #ffc857;
+  --pp-success: #16a085;
+  --pp-business: #0b806f;
+  --pp-focus: #38bdf8;
+  --pp-space-2: .5rem;
+  --pp-space-3: .75rem;
+  --pp-space-4: 1rem;
+  --pp-space-5: 1.5rem;
+  --pp-radius-control: 10px;
+  --pp-radius-card: 12px;
+  --pp-radius-stage: 16px;
+  --motion-fast: 140ms;
+  --motion-ui: 180ms;
+  --motion-reveal: 420ms;
+  --motion-game: 2800ms;
+}
+
+/* DS-C02: presentation-only immersive game container. */
+.game-stage {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  justify-items: center;
+  gap: var(--pp-space-3);
+  padding: var(--pp-space-4);
+  border: 1px solid var(--pp-border-dark);
+  border-radius: 14px;
+  color: var(--pp-stage-text);
+  background: radial-gradient(circle at 50% 18%, rgb(37 99 235 / 13%), transparent 46%), var(--pp-stage-soft);
+}
+.game-stage::before {
+  position: absolute;
+  inset: 0;
+  border-top: 1px solid rgb(255 255 255 / 6%);
+  border-radius: inherit;
+  content: '';
+  pointer-events: none;
+}
+.game-stage__utility:empty,
+.game-stage__result:empty { display: none; }
+.game-stage__utility,
+.game-stage__game,
+.game-stage__action,
+.game-stage__result { position: relative; z-index: 1; width: 100%; }
+.game-stage__action { display: grid; justify-items: center; }
+.game-stage__result { border-top: 1px solid var(--pp-border-dark); }
+
+/* G01: scope Hybrid Dark Stage styles to the wheel route only. */
+.game-shell--production .game-stage { margin-top: var(--pp-space-2); }
+.game-stage .wheel-stage { padding: 0; border: 0; }
+.game-stage .wheel-stage canvas { width: min(100%, 23rem); border-color: var(--pp-border-dark-strong); background: transparent; }
+.game-stage .wheel-pointer { border-top-color: var(--pp-win); filter: drop-shadow(0 1px 0 #020814); }
+.game-stage .wheel-spin {
+  width: 100%;
+  min-height: 52px;
+  margin-top: 0;
+  border-color: var(--pp-primary);
+  border-radius: var(--pp-radius-control);
+  color: #fff;
+  background: var(--pp-primary);
+  transition: background var(--motion-fast) ease, transform var(--motion-fast) ease;
+}
+.game-stage .wheel-spin:hover:not(:disabled) { background: var(--pp-primary-hover); transform: translateY(-1px); }
+.game-stage .wheel-spin:active:not(:disabled) { background: var(--pp-primary-active); transform: translateY(0); }
+.game-stage .wheel-result { margin: 0; padding-top: var(--pp-space-3); border-top: 0; color: var(--pp-stage-text-soft); }
+.game-stage .wheel-result strong { border-color: rgb(255 200 87 / 55%); color: var(--pp-win); background: rgb(255 200 87 / 10%); }
+.game-stage .wheel-result__detail { color: var(--pp-stage-text); }
+.game-stage .wheel-result__next,
+.game-stage .wheel-history { color: var(--pp-stage-text-muted); }
+.game-stage .wheel-history { margin-top: var(--pp-space-2); }
+.wheel-result--win strong { animation-duration: var(--motion-reveal); }
+.game-shell--production .wheel-actions .button { min-height: 44px; }
+.game-shell--production .wheel-actions .button--secondary { border-color: var(--pp-border-light); }
+.game-shell--production .wheel-actions .button--ghost { color: var(--pp-text-soft); background: var(--pp-page); }
+.game-shell--production .wheel-players li { border-color: var(--pp-border-light); border-radius: 9px; }
+.game-shell--production .wheel-players button { transition: color var(--motion-fast) ease, background var(--motion-fast) ease; }
+:focus-visible { outline: 2px solid var(--pp-focus); outline-offset: 3px; }
+@media (min-width: 48rem) {
+  .game-stage { padding: var(--pp-space-5); border-radius: var(--pp-radius-stage); }
+  .game-stage .wheel-stage canvas { width: min(100%, 26rem); }
+  .game-stage .wheel-spin { width: min(100%, 26rem); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .game-stage .wheel-spin { transition: none; }
+}
+/* G01 final polish: concise participant controls and quiet stage status. */
+.game-shell--production .wheel-players li { min-height: 44px; padding: .25rem .25rem .25rem .625rem; }
+.game-shell--production .wheel-players button { min-width: 32px; min-height: 32px; padding: 0; border-radius: 50%; font-size: 1.25rem; line-height: 1; }
+.game-shell--production .game-stage__utility { min-height: 1.25rem; text-align: center; }
+.game-shell--production .game-stage .wheel-status { margin: 0; color: var(--pp-stage-text-muted); font-size: .8125rem; }
+.game-shell--production .game-stage__result:not(:empty) { margin-top: var(--pp-space-2); }
+.game-shell--production .wheel-result strong { padding: .25rem .5rem; }

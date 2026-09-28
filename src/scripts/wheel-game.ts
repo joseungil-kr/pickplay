@@ -27,8 +27,9 @@ if (game) {
 
   const renderResult = (winner?: Participant, excluded = false) => {
     result.replaceChildren();
+    result.classList.remove('wheel-result--win');
     if (!winner) {
-      result.textContent = '참가자 2명 이상을 확인한 뒤 룰렛을 돌려보세요.';
+      result.textContent = '';
       return;
     }
     const name = document.createElement('strong');
@@ -44,6 +45,8 @@ if (game) {
     nextText.className = 'wheel-result__next';
     nextText.textContent = `다음 룰렛을 돌릴 때부터 ${winner.label} 님을 제외해요.`;
     result.append(remainingText, nextText);
+    void result.offsetWidth;
+    result.classList.add('wheel-result--win');
   };
 
   const renderState = (drawWheel = true) => {
@@ -55,16 +58,18 @@ if (game) {
       remove.type = 'button';
       remove.dataset.remove = String(item.id);
       remove.ariaLabel = `${item.label} 삭제`;
-      remove.textContent = '삭제';
+      remove.textContent = '×';
       row.append(label, remove);
       return row;
     });
     list.replaceChildren(...items);
     if (drawWheel) renderer.setItems(state.remaining);
     spinButton.disabled = spinning || state.remaining.length < 2;
-    status.textContent = state.remaining.length === 1
-      ? `${state.remaining[0].label} 님이 마지막으로 남았어요.`
-      : state.remaining.length < 2 ? '참가자를 2명 이상 넣어주세요.' : `다음 추첨 대상 ${state.remaining.length}명`;
+    status.textContent = spinning
+      ? '룰렛을 돌리고 있어요.'
+      : state.currentWinner ? ''
+      : state.remaining.length === 1 ? `${state.remaining[0].label} 님이 마지막으로 남았어요.`
+      : state.remaining.length < 2 ? '한 명을 더 추가하면 시작할 수 있어요.' : `준비 완료 · ${state.remaining.length}명`;
     history.textContent = state.history.length ? `추첨 순서: ${state.history.map(({ label }) => label).join(' → ')}` : '';
   };
 
@@ -94,7 +99,8 @@ if (game) {
     spinning = true;
     excludeInput.disabled = true;
     spinButton.disabled = true;
-    result.textContent = '룰렛을 돌리는 중이에요…';
+    result.textContent = '';
+    status.textContent = '룰렛을 돌리고 있어요.';
     const values = new Uint32Array(1);
     crypto.getRandomValues(values);
     const winnerIndex = values[0] % state.remaining.length;

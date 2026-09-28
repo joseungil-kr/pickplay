@@ -14,42 +14,57 @@ interface Props {
   duration: string;
   steps: string[];
   relatedGames?: RelatedGame[];
+  variant?: 'default' | 'production';
+  resultInStage?: boolean;
 }
 
-const { title, description, players, duration, steps, relatedGames = [] } = Astro.props;
+const { title, description, players, duration, steps, relatedGames = [], variant = 'default', resultInStage = false } = Astro.props;
+const isProduction = variant === 'production';
 const ruleSteps = steps.slice(0, 3);
 ---
 
-<main class="page-shell game-shell">
+<main class:list={['page-shell', 'game-shell', { 'game-shell--production': isProduction }]}> 
   <header class="game-shell__intro">
     <p class="game-shell__eyebrow">PLAY · 무료 게임</p>
     <h1>{title}</h1>
     <p class="game-shell__description">{description}</p>
 
-    <dl class="game-shell__meta" aria-label="게임 정보">
-      <div><dt>인원</dt><dd>{players}</dd></div>
-      <div><dt>예상 시간</dt><dd>{duration}</dd></div>
-    </dl>
-
-    <ol class="game-shell__rules" aria-label="게임 방법">
-      {ruleSteps.map((step, index) => <li><span>{index + 1}</span>{step}</li>)}
-    </ol>
+    <div class="game-shell__game-info">
+      <dl class="game-shell__meta" aria-label="게임 정보">
+        <div><dt>인원</dt><dd>{players}</dd></div>
+        <div><dt>예상 시간</dt><dd>{duration}</dd></div>
+      </dl>
+      {isProduction ? (
+        <details class="game-shell__rules-details">
+          <summary>게임 방법</summary>
+          <ol class="game-shell__rules" aria-label="게임 방법">
+            {ruleSteps.map((step, index) => <li><span>{index + 1}</span>{step}</li>)}
+          </ol>
+        </details>
+      ) : (
+        <ol class="game-shell__rules" aria-label="게임 방법">
+          {ruleSteps.map((step, index) => <li><span>{index + 1}</span>{step}</li>)}
+        </ol>
+      )}
+    </div>
   </header>
 
-  <section class="game-shell__section" aria-labelledby="game-settings-title">
-    <div class="game-shell__section-heading"><p>준비</p><h2 id="game-settings-title">게임 설정</h2></div>
+  <section class="game-shell__section" aria-label="게임 설정">
+    {!isProduction && <div class="game-shell__section-heading"><p>준비</p><h2>게임 설정</h2></div>}
     <slot name="settings" />
   </section>
 
-  <section class="game-shell__section game-shell__play-area" aria-labelledby="game-play-title">
-    <div class="game-shell__section-heading"><p>시작</p><h2 id="game-play-title">게임</h2></div>
+  <section class="game-shell__section game-shell__play-area" aria-label="게임">
+    {!isProduction && <div class="game-shell__section-heading"><p>시작</p><h2>게임</h2></div>}
     <slot name="game" />
   </section>
 
-  <section class="game-shell__section game-shell__result-area" aria-labelledby="game-result-title">
-    <div class="game-shell__section-heading"><p>완료 후</p><h2 id="game-result-title">결과</h2></div>
-    <slot name="result" />
-  </section>
+  {!resultInStage && (
+    <section class="game-shell__section game-shell__result-area" aria-label="결과">
+      {!isProduction && <div class="game-shell__section-heading"><p>완료 후</p><h2>결과</h2></div>}
+      <slot name="result" />
+    </section>
+  )}
 
   <div class="game-shell__actions" aria-label="게임 다음 작업">
     <slot name="actions">

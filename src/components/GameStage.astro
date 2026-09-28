@@ -1,0 +1,16 @@
+---
+interface Props {
+  gameId: string;
+  accent?: 'blue' | 'orange' | 'green';
+  label?: string;
+}
+
+const { gameId, accent = 'blue', label = '게임 실행 영역' } = Astro.props;
+---
+
+<section class:list={['game-stage', `game-stage--${accent}`]} data-game-stage={gameId} aria-label={label}>
+  <div class="game-stage__utility"><slot name="utility" /></div>
+  <div class="game-stage__game"><slot name="game" /></div>
+  <div class="game-stage__action"><slot name="action" /></div>
+  <div class="game-stage__result"><slot name="result" /></div>
+</section>

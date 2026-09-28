@@ -1,5 +1,6 @@
 ---
 import GameShell from '../components/GameShell.astro';
+import GameStage from '../components/GameStage.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const relatedGames = [
@@ -12,11 +13,13 @@ const relatedGames = [
 <BaseLayout title="온라인 룰렛 돌리기 | PickPlay" description="이름을 넣고 무료 룰렛으로 한 명을 뽑아보세요.">
   <GameShell
     title="행운의 룰렛"
-    description="이름을 넣고 룰렛을 돌려 한 명을 뽑아요."
+    description="이름을 넣고 룰렛을 돌려 한 명을 뽑아보세요."
     players="2명 이상"
     duration="약 1분"
     steps={['참가자 이름을 넣어요.', '룰렛을 돌려요.', '멈춘 이름을 확인해요.']}
     relatedGames={relatedGames}
+    variant="production"
+    resultInStage
   >
     <div slot="settings" class="wheel-game" data-wheel-game>
       <form class="wheel-form" data-wheel-form>
@@ -26,18 +29,20 @@ const relatedGames = [
           <button type="submit" class="button button--secondary">추가</button>
         </div>
       </form>
-      <p class="wheel-status" data-wheel-status role="status"></p>
+
       <ul class="wheel-players" data-wheel-list aria-label="참가자 목록"></ul>
       <label class="wheel-exclude"><input data-wheel-exclude type="checkbox" checked /> 당첨자를 다음 뽑기에서 제외</label>
     </div>
 
-    <div slot="game" class="wheel-stage">
-      <span class="wheel-pointer" aria-hidden="true"></span>
-      <canvas data-wheel-canvas role="img" aria-label="참가자 이름이 적힌 룰렛"></canvas>
-      <button type="button" class="button button--primary wheel-spin" data-wheel-spin>룰렛 돌리기</button>
-    </div>
-
-    <div slot="result"><div class="wheel-result" data-wheel-result aria-live="polite"></div><p class="wheel-history" data-wheel-history aria-live="polite"></p></div>
+    <GameStage slot="game" gameId="wheel" label="룰렛 실행 영역">
+      <p slot="utility" class="wheel-status" data-wheel-status role="status"></p>
+      <div slot="game" class="wheel-stage">
+        <span class="wheel-pointer" aria-hidden="true"></span>
+        <canvas data-wheel-canvas role="img" aria-label="참가자 이름이 적힌 룰렛"></canvas>
+      </div>
+      <button slot="action" type="button" class="button button--primary wheel-spin" data-wheel-spin>룰렛 돌리기</button>
+      <div slot="result"><div class="wheel-result" data-wheel-result aria-live="polite"></div><p class="wheel-history" data-wheel-history aria-live="polite"></p></div>
+    </GameStage>
 
     <div slot="actions" class="wheel-actions" aria-label="룰렛 다음 작업">
       <button type="button" class="button button--secondary game-shell__action" data-wheel-replay>다시 하기</button>

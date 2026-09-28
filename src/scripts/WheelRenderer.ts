@@ -73,26 +73,41 @@ export class WheelRenderer {
       this.context.fillStyle = item.color;
       this.context.fill();
       this.context.strokeStyle = '#ffffff';
-      this.context.lineWidth = 2;
+      this.context.lineWidth = this.items.length <= 4 ? 3 : 2;
       this.context.stroke();
 
       this.context.save();
       this.context.translate(center, center);
-      this.context.rotate(start + segment / 2);
+      const labelAngle = start + segment / 2;
+      const flipLabel = Math.cos(labelAngle) < 0;
+      this.context.rotate(flipLabel ? labelAngle + Math.PI : labelAngle);
       this.context.fillStyle = '#ffffff';
       this.context.font = `700 ${Math.max(10, Math.min(16, 144 / this.items.length))}px system-ui, sans-serif`;
-      this.context.textAlign = 'right';
+      this.context.textAlign = flipLabel ? 'left' : 'right';
       this.context.textBaseline = 'middle';
-      this.context.fillText(this.truncate(item.label), radius - 18, 0);
+      this.context.shadowColor = 'rgba(0, 0, 0, .22)';
+      this.context.shadowBlur = 1;
+      this.context.fillText(this.truncate(item.label), flipLabel ? -(radius - 18) : radius - 18, 0);
       this.context.restore();
     });
 
     this.context.beginPath();
-    this.context.arc(center, center, 24, 0, Math.PI * 2);
+    this.context.arc(center, center, radius, 0, Math.PI * 2);
+    this.context.strokeStyle = '#102a43';
+    this.context.lineWidth = 2;
+    this.context.stroke();
+
+    this.context.beginPath();
+    this.context.arc(center, center, 28, 0, Math.PI * 2);
     this.context.fillStyle = '#ffffff';
     this.context.fill();
-    this.context.strokeStyle = '#d9e1e8';
+    this.context.strokeStyle = '#102a43';
+    this.context.lineWidth = 2;
     this.context.stroke();
+    this.context.beginPath();
+    this.context.arc(center, center, 8, 0, Math.PI * 2);
+    this.context.fillStyle = '#102a43';
+    this.context.fill();
   }
 
   private truncate(label: string) {
