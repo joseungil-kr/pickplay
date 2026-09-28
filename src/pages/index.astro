@@ -1,0 +1,19 @@
+---
+import Button from '../components/Button.astro';
+import MobileNav from '../components/MobileNav.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+const title = 'PickPlay';
+const tools = [
+  { icon: '◎', name: '룰렛', description: '이름을 넣고 한 명을 뽑아요.' },
+  { icon: '▤', name: '랜덤 뽑기', description: '참가자 중 필요한 만큼 골라요.' },
+  { icon: '◇', name: '종이 뽑기', description: '접힌 종이 하나를 열어봐요.' },
+  { icon: '↕', name: '사다리타기', description: '시작과 결과를 연결해요.' },
+];
+---
+<BaseLayout title={title} description="가볍게 즐기는 뽑기와 게임, PickPlay">
+<header class="page-shell site-header"><a class="brand" href="#home"><span class="brand-mark">Pick</span>Play</a><nav class="desktop-links" aria-label="주요 메뉴"><a href="#tools">뽑기</a><a href="#tools">게임</a><a href="#business">이벤트</a></nav></header>
+<main class="page-shell" id="home"><section class="hero" aria-labelledby="hero-title"><p class="hero__eyebrow">바로 골라서 시작해요</p><h1 id="hero-title">오늘 뭐할까요?</h1><p>이름을 넣고 버튼을 누르면 바로 시작할 수 있어요.</p><div class="hero__actions"><Button href="#tools">게임 고르기</Button></div></section>
+<section class="section" id="tools" aria-labelledby="tools-title"><h2 class="section__title" id="tools-title">빠른 뽑기</h2><ul class="tool-list">{tools.map((tool) => <li><a class="tool-row" href="#tools"><span class="tool-icon" aria-hidden="true">{tool.icon}</span><span><strong>{tool.name}</strong><small>{tool.description}</small></span><b aria-hidden="true">시작</b></a></li>)}</ul></section>
+<p class="quick-note"><strong>회원가입 없이</strong> 바로 써보세요. 게임을 고르면 필요한 입력만 보여드려요.</p>
+<aside class="business-strip" id="business"><strong>매장 이벤트가 필요하세요?</strong><p>게임을 고객 경품 이벤트로 바꿔 운영할 수 있어요.</p><Button href="#business" variant="business">이벤트 알아보기</Button></aside></main>
+<MobileNav items={[{ label: '홈', href: '#home', current: true },{ label: '뽑기', href: '#tools' },{ label: '게임', href: '#tools' },{ label: '모임', href: '#tools' },{ label: '이벤트', href: '#business' }]} /></BaseLayout>

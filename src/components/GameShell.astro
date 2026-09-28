@@ -1,0 +1,76 @@
+---
+import Button from './Button.astro';
+
+interface RelatedGame {
+  name: string;
+  description: string;
+  href?: string;
+}
+
+interface Props {
+  title: string;
+  description: string;
+  players: string;
+  duration: string;
+  steps: string[];
+  relatedGames?: RelatedGame[];
+}
+
+const { title, description, players, duration, steps, relatedGames = [] } = Astro.props;
+const ruleSteps = steps.slice(0, 3);
+---
+
+<main class="page-shell game-shell">
+  <header class="game-shell__intro">
+    <p class="game-shell__eyebrow">PLAY · 무료 게임</p>
+    <h1>{title}</h1>
+    <p class="game-shell__description">{description}</p>
+
+    <dl class="game-shell__meta" aria-label="게임 정보">
+      <div><dt>인원</dt><dd>{players}</dd></div>
+      <div><dt>예상 시간</dt><dd>{duration}</dd></div>
+    </dl>
+
+    <ol class="game-shell__rules" aria-label="게임 방법">
+      {ruleSteps.map((step, index) => <li><span>{index + 1}</span>{step}</li>)}
+    </ol>
+  </header>
+
+  <section class="game-shell__section" aria-labelledby="game-settings-title">
+    <div class="game-shell__section-heading"><p>준비</p><h2 id="game-settings-title">게임 설정</h2></div>
+    <slot name="settings" />
+  </section>
+
+  <section class="game-shell__section game-shell__play-area" aria-labelledby="game-play-title">
+    <div class="game-shell__section-heading"><p>시작</p><h2 id="game-play-title">게임</h2></div>
+    <slot name="game" />
+  </section>
+
+  <section class="game-shell__section game-shell__result-area" aria-labelledby="game-result-title">
+    <div class="game-shell__section-heading"><p>완료 후</p><h2 id="game-result-title">결과</h2></div>
+    <slot name="result" />
+  </section>
+
+  <div class="game-shell__actions" aria-label="게임 다음 작업">
+    <slot name="actions">
+      <Button type="button" variant="secondary" class="game-shell__action" ariaLabel="게임을 다시 시작하기">다시 하기</Button>
+      <Button type="button" variant="ghost" class="game-shell__action" ariaLabel="게임 공유하기">공유하기</Button>
+    </slot>
+  </div>
+
+  <slot name="business">
+    <aside class="game-shell__business" aria-labelledby="game-business-title">
+      <div><p>BUSINESS</p><h2 id="game-business-title">이 게임으로 매장 이벤트를 만들 수 있어요</h2><p>게임을 마친 뒤, 필요한 경우에만 이벤트 제작으로 이어가세요.</p></div>
+      <Button href="#business" variant="business">이벤트 만들기</Button>
+    </aside>
+  </slot>
+
+  {relatedGames.length > 0 && (
+    <section class="game-shell__related" aria-labelledby="related-games-title">
+      <div class="game-shell__section-heading"><p>더 찾아보기</p><h2 id="related-games-title">관련 게임</h2></div>
+      <ul>
+        {relatedGames.map((game) => <li>{game.href ? <a href={game.href}><strong>{game.name}</strong><span>{game.description}</span></a> : <div><strong>{game.name}</strong><span>{game.description}</span></div>}</li>)}
+      </ul>
+    </section>
+  )}
+</main>

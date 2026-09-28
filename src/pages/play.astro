@@ -1,0 +1,53 @@
+---
+import GameShell from '../components/GameShell.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const relatedGames = [
+  { name: '랜덤 뽑기', description: '순서를 가볍게 정해요.', href: '/games' },
+  { name: '종이 뽑기', description: '모임에서 함께 골라요.', href: '/party' },
+  { name: '반응속도', description: '수업에서 빠르게 즐겨요.', href: '/class' },
+];
+---
+
+<BaseLayout title="온라인 룰렛 돌리기 | PickPlay" description="이름을 넣고 무료 룰렛으로 한 명을 뽑아보세요.">
+  <GameShell
+    title="행운의 룰렛"
+    description="이름을 넣고 룰렛을 돌려 한 명을 뽑아요."
+    players="2명 이상"
+    duration="약 1분"
+    steps={['참가자 이름을 넣어요.', '룰렛을 돌려요.', '멈춘 이름을 확인해요.']}
+    relatedGames={relatedGames}
+  >
+    <div slot="settings" class="wheel-game" data-wheel-game>
+      <form class="wheel-form" data-wheel-form>
+        <label for="wheel-name">참가자 이름</label>
+        <div class="wheel-form__row">
+          <input id="wheel-name" data-wheel-input type="text" maxlength="16" placeholder="예: 민지" autocomplete="off" />
+          <button type="submit" class="button button--secondary">추가</button>
+        </div>
+      </form>
+      <p class="wheel-status" data-wheel-status role="status"></p>
+      <ul class="wheel-players" data-wheel-list aria-label="참가자 목록"></ul>
+      <label class="wheel-exclude"><input data-wheel-exclude type="checkbox" checked /> 당첨자를 다음 뽑기에서 제외</label>
+    </div>
+
+    <div slot="game" class="wheel-stage">
+      <span class="wheel-pointer" aria-hidden="true"></span>
+      <canvas data-wheel-canvas role="img" aria-label="참가자 이름이 적힌 룰렛"></canvas>
+      <button type="button" class="button button--primary wheel-spin" data-wheel-spin>룰렛 돌리기</button>
+    </div>
+
+    <div slot="result"><div class="wheel-result" data-wheel-result aria-live="polite"></div><p class="wheel-history" data-wheel-history aria-live="polite"></p></div>
+
+    <div slot="actions" class="wheel-actions" aria-label="룰렛 다음 작업">
+      <button type="button" class="button button--secondary game-shell__action" data-wheel-replay>다시 하기</button>
+      <button type="button" class="button button--ghost game-shell__action" data-wheel-share>공유하기</button>
+    </div>
+
+    <aside slot="business" id="business" class="game-shell__business" aria-labelledby="wheel-business-title">
+      <div><p>BUSINESS</p><h2 id="wheel-business-title">이 룰렛으로 매장 이벤트 만들기</h2><p>게임을 마친 뒤, 필요한 경우에만 이벤트 제작으로 이어가세요.</p></div>
+      <a class="button button--business" href="/business/create?game=wheel">이벤트 만들기</a>
+    </aside>
+  </GameShell>
+  <script src="../scripts/wheel-game.ts"></script>
+</BaseLayout>

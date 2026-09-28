@@ -1,0 +1,7 @@
+---
+interface Props { title: string; description: string; players: string; duration: string; steps: string[]; }
+const { title, description, players, duration, steps } = Astro.props;
+---
+<section class="card game-rule" aria-labelledby="game-rule-title">
+  <h2 class="card__title" id="game-rule-title">{title}</h2><p class="game-rule__intro">{description}</p><p class="game-rule__meta"><span>인원 {players}</span><span>시간 {duration}</span></p><ol class="game-rule__steps">{steps.slice(0, 3).map((step) => <li>{step}</li>)}</ol>
+</section>

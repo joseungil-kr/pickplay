@@ -1,0 +1,6 @@
+---
+interface NavItem { label: string; href: string; current?: boolean; }
+interface Props { items: NavItem[]; }
+const { items } = Astro.props;
+---
+<nav class="mobile-nav" aria-label="모바일 주요 메뉴">{items.map(({ label, href, current }) => <a href={href} aria-current={current ? 'page' : undefined}>{label}</a>)}</nav>

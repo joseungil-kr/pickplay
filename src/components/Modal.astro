@@ -1,0 +1,8 @@
+---
+import Button from './Button.astro';
+interface Props { title: string; open?: boolean; }
+const { title, open = false } = Astro.props;
+---
+<dialog class="modal" open={open} aria-labelledby="modal-title">
+  <div class="modal__content"><h2 class="modal__heading" id="modal-title">{title}</h2><slot /><form class="modal__close" method="dialog"><Button type="submit" variant="secondary">닫기</Button></form></div>
+</dialog>

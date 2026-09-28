@@ -1,0 +1,5 @@
+---
+interface Props { value: string; description: string; }
+const { value, description } = Astro.props;
+---
+<section class="card result" aria-live="polite" aria-label="게임 결과"><p class="result__label">결과</p><strong class="result__value">{value}</strong><p class="result__description">{description}</p></section>

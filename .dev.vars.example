@@ -1,0 +1,2 @@
+# Copy this file to .dev.vars for local Cloudflare bindings.
+# Do not commit .dev.vars.
