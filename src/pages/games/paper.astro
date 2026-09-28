@@ -1,18 +1,57 @@
 ---
 import GameShell from '../../components/GameShell.astro';
+import GameStage from '../../components/GameStage.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 ---
 
 <BaseLayout title="종이 뽑기 | PickPlay" description="접힌 종이 하나를 골라 이름을 확인해보세요.">
-  <GameShell title="종이 뽑기" description="접힌 종이 하나를 골라 이름을 확인해요." players="2명 이상" duration="약 1분" steps={['참가자 이름을 넣어요.', '접힌 종이 하나를 골라요.', '종이가 펼쳐지면 이름을 확인해요.']} relatedGames={[{ name: '랜덤 이름 뽑기', description: '바로 필요한 인원을 뽑아요.', href: '/games/random' }]}>
+  <GameShell
+    title="종이 뽑기"
+    description="접힌 종이 하나를 골라 이름을 확인해요."
+    players="2명 이상"
+    duration="약 1분"
+    steps={['참가자 이름을 넣어요.', '접힌 종이 하나를 골라요.', '종이가 펼쳐지면 이름을 확인해요.']}
+    relatedGames={[{ name: '랜덤 이름 뽑기', description: '바로 필요한 인원을 뽑아요.', href: '/games/random' }]}
+    variant="production"
+    resultInStage
+  >
     <div slot="settings" class="paper-game" data-paper-game>
-      <form class="wheel-form" data-paper-form><label for="paper-name">참가자 이름</label><div class="wheel-form__row"><input id="paper-name" data-paper-input type="text" maxlength="16" placeholder="예: 민지" autocomplete="off" /><button class="button button--secondary" type="submit">추가</button></div></form>
+      <form class="wheel-form" data-paper-form>
+        <label for="paper-name">참가자 이름</label>
+        <div class="wheel-form__row">
+          <input id="paper-name" data-paper-input type="text" maxlength="16" placeholder="예: 민지" autocomplete="off" />
+          <button class="button button--secondary" type="submit">추가</button>
+        </div>
+      </form>
       <ul class="wheel-players" data-paper-list aria-label="참가자 목록"></ul>
-      <label class="wheel-exclude"><input data-paper-exclude type="checkbox" checked /> 당첨자를 다음 뽑기에서 제외</label>
+      <label class="wheel-exclude">
+        <input data-paper-exclude type="checkbox" checked />
+        당첨자를 다음 뽑기에서 제외
+      </label>
     </div>
-    <div slot="game" class="paper-stage"><p>접힌 종이 하나를 골라보세요.</p><div class="paper-grid" data-paper-grid aria-label="접힌 종이 목록"></div><button class="button button--secondary paper-next" type="button" data-paper-next hidden>남은 종이 섞기</button></div>
-    <div slot="result"><div class="wheel-result" data-paper-result aria-live="polite"></div><p class="picker-remaining" data-paper-remaining aria-live="polite"></p><p class="wheel-history" data-paper-history aria-live="polite"></p></div>
-    <div slot="actions" class="wheel-actions"><button class="button button--secondary game-shell__action" type="button" data-paper-replay>다시 하기</button></div>
+
+    <GameStage slot="game" gameId="paper-draw" accent="green" label="종이 뽑기 실행 영역">
+      <p slot="utility" class="paper-status" data-paper-status role="status"></p>
+
+      <div slot="game" class="paper-stage">
+        <div class="paper-grid" data-paper-grid aria-label="접힌 종이 목록"></div>
+      </div>
+
+      <button slot="action" class="button button--secondary paper-next" type="button" data-paper-next hidden>
+        남은 종이 섞기
+      </button>
+
+      <div slot="result">
+        <div class="wheel-result paper-result" data-paper-result aria-live="polite"></div>
+        <p class="picker-remaining" data-paper-remaining aria-live="polite"></p>
+        <p class="wheel-history" data-paper-history aria-live="polite"></p>
+      </div>
+    </GameStage>
+
+    <div slot="actions" class="wheel-actions">
+      <button class="button button--secondary game-shell__action" type="button" data-paper-replay hidden>다시 하기</button>
+    </div>
   </GameShell>
+
   <script src="../../scripts/paper-draw-game.ts"></script>
 </BaseLayout>

@@ -492,3 +492,206 @@
 .game-shell--production:has(.picker-game) .picker-remaining { color:var(--pp-stage-text); }
 .game-shell--production:has(.picker-game) .wheel-result strong { border-color:rgb(255 200 87 / 55%); color:var(--pp-win); background:rgb(255 200 87 / 10%); }
 @media(min-width:48rem){.game-shell--production:has(.picker-game){max-width:44rem}.game-shell--production:has(.picker-game) .game-stage__action .button{max-width:26rem}}
+
+/* G03 production: direct paper selection inside the Hybrid Dark Stage. */
+.game-shell--production:has(.paper-game) { max-width: 44rem; }
+/* G03 final polish: meta flow and auto-confirmed paper distinction. */
+.game-shell--production:has(.paper-game) .game-shell__game-info {
+  flex-wrap: wrap;
+  column-gap: var(--space-3);
+  row-gap: .25rem;
+}
+.game-shell--production:has(.paper-game) .game-shell__meta {
+  flex-wrap: nowrap;
+  gap: .375rem;
+  white-space: nowrap;
+}
+.game-shell--production:has(.paper-game) .game-shell__meta div {
+  display: flex;
+  align-items: center;
+}
+.game-shell--production:has(.paper-game) .game-shell__meta dd {
+  display: inline;
+}
+.game-shell--production:has(.paper-game) .game-shell__rules-details {
+  white-space: nowrap;
+}
+.game-shell--production:has(.paper-game) [data-paper-replay][hidden] {
+  display: none;
+}
+.game-shell--production:has(.paper-game) .paper-game { margin-top: 0; }
+.game-shell--production:has(.paper-game) .wheel-players li {
+  min-height: 44px;
+  padding: .25rem .25rem .25rem .625rem;
+  border-radius: 9px;
+}
+.game-shell--production:has(.paper-game) .wheel-players button {
+  min-width: 32px;
+  min-height: 32px;
+  padding: 0;
+  border-radius: 50%;
+  font-size: 1.25rem;
+  line-height: 1;
+}
+.game-shell--production:has(.paper-game) .wheel-form :disabled,
+.game-shell--production:has(.paper-game) .wheel-players button:disabled,
+.game-shell--production:has(.paper-game) .wheel-exclude input:disabled {
+  cursor: not-allowed;
+  opacity: .58;
+}
+.game-shell--production:has(.paper-game) .game-stage {
+  background:
+    radial-gradient(circle at 50% 16%, rgb(22 160 133 / 14%), transparent 46%),
+    var(--pp-stage-soft);
+}
+.game-shell--production:has(.paper-game) .game-stage__utility {
+  min-height: 1.25rem;
+  text-align: center;
+}
+.paper-status {
+  margin: 0;
+  color: var(--pp-stage-text-muted);
+  font-size: .8125rem;
+}
+.game-shell--production:has(.paper-game) .paper-stage {
+  margin: 0;
+  padding: .25rem 0;
+}
+.game-shell--production:has(.paper-game) .paper-grid {
+  grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
+  gap: .75rem;
+}
+.game-shell--production:has(.paper-game) .paper-card {
+  position: relative;
+  overflow: hidden;
+  min-height: 116px;
+  padding: .875rem;
+  border: 1px solid rgb(255 255 255 / 28%);
+  border-radius: 10px;
+  color: #17352f;
+  background:
+    linear-gradient(135deg, transparent 0 73%, rgb(15 159 137 / 10%) 73% 76%, transparent 76%),
+    #fffdf5;
+  box-shadow: 0 8px 18px rgb(0 0 0 / 14%);
+  font-size: 1rem;
+  transition:
+    transform var(--motion-ui) ease,
+    border-color var(--motion-ui) ease,
+    box-shadow var(--motion-ui) ease,
+    opacity var(--motion-ui) ease;
+}
+.game-shell--production:has(.paper-game) .paper-card::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-bottom: 1px solid rgb(15 159 137 / 18%);
+  border-left: 1px solid rgb(15 159 137 / 18%);
+  background: #f1f6eb;
+  content: '';
+  clip-path: polygon(100% 0, 0 0, 100% 100%);
+  pointer-events: none;
+}
+.game-shell--production:has(.paper-game) .paper-card > span {
+  display: grid;
+  min-height: 4.75rem;
+  place-items: center;
+  color: #0f7f70;
+  font-size: 1.75rem;
+  font-weight: 900;
+}
+.game-shell--production:has(.paper-game) .paper-card:hover:not(:disabled),
+.game-shell--production:has(.paper-game) .paper-card:focus-visible:not(:disabled) {
+  border-color: rgb(22 160 133 / 78%);
+  box-shadow: 0 10px 22px rgb(0 0 0 / 20%);
+  transform: translateY(-3px) rotate(var(--paper-tilt, 0deg));
+}
+.game-shell--production:has(.paper-game) .paper-card:disabled:not(.paper-card--open) {
+  cursor: default;
+  opacity: .55;
+}
+.game-shell--production:has(.paper-game) .paper-card--open,
+.game-shell--production:has(.paper-game) .paper-card--open:disabled {
+  border-color: rgb(22 160 133 / 75%);
+  color: #fff;
+  background: #0f8f7c;
+  box-shadow: 0 10px 24px rgb(0 0 0 / 24%);
+  opacity: 1;
+  animation-duration: var(--motion-reveal);
+}
+.game-shell--production:has(.paper-game) .paper-card--open::after { display: none; }
+.game-shell--production:has(.paper-game) .paper-card--auto,
+.game-shell--production:has(.paper-game) .paper-card--auto:disabled {
+  border-color: rgb(22 160 133 / 78%);
+  color: #0f7f70;
+  background: #fffdf5;
+  box-shadow: inset 0 0 0 2px rgb(22 160 133 / 18%);
+  animation: none;
+}
+.game-shell--production:has(.paper-game) .paper-card--auto::after {
+  display: block;
+}
+.game-shell--production:has(.paper-game) .game-stage__action:has(.paper-next[hidden]) {
+  display: none;
+}
+.game-shell--production:has(.paper-game) .paper-next {
+  width: 100%;
+  min-height: 44px;
+  border-color: rgb(22 160 133 / 58%);
+  border-radius: var(--pp-radius-control);
+  color: var(--pp-stage-text);
+  background: var(--pp-stage-raised);
+}
+.game-shell--production:has(.paper-game) .paper-next:hover:not(:disabled),
+.game-shell--production:has(.paper-game) .paper-next:focus-visible:not(:disabled) {
+  border-color: rgb(22 160 133 / 88%);
+  background: var(--pp-stage-hover);
+}
+.game-shell--production:has(.paper-game) .game-stage__result:has(.paper-result:empty):has(.picker-remaining:empty):has(.wheel-history:empty) {
+  display: none;
+}
+.game-shell--production:has(.paper-game) .paper-result {
+  margin: 0;
+  padding-top: var(--pp-space-3);
+  border-top: 0;
+  color: var(--pp-stage-text-soft);
+}
+.game-shell--production:has(.paper-game) .paper-result strong {
+  border-color: rgb(255 200 87 / 55%);
+  color: var(--pp-win);
+  background: rgb(255 200 87 / 10%);
+  font-size: clamp(1.375rem, 6vw, 1.75rem);
+  letter-spacing: -.04em;
+}
+.game-shell--production:has(.paper-game) .paper-result--win strong {
+  animation: wheel-winner var(--motion-reveal) ease-out both;
+}
+.game-shell--production:has(.paper-game) .picker-remaining {
+  color: var(--pp-stage-text);
+}
+.game-shell--production:has(.paper-game) .wheel-history {
+  margin-top: var(--pp-space-2);
+  color: var(--pp-stage-text-muted);
+  font-size: .8125rem;
+  font-weight: 700;
+}
+@media (min-width: 48rem) {
+  .game-shell--production:has(.paper-game) .paper-grid {
+    grid-template-columns: repeat(auto-fill, minmax(132px, 1fr));
+    gap: 1rem;
+  }
+  .game-shell--production:has(.paper-game) .paper-card {
+    min-height: 132px;
+  }
+  .game-shell--production:has(.paper-game) .paper-next {
+    max-width: 26rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .game-shell--production:has(.paper-game) .paper-card,
+  .game-shell--production:has(.paper-game) .paper-result--win strong {
+    transition: none;
+    animation: none;
+  }
+}
