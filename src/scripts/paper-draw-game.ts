@@ -82,6 +82,7 @@ if (game) {
     exclude.disabled = controlsLocked;
     next.disabled = revealing;
     replay.disabled = revealing;
+    replay.hidden = state.history.length === 0;
 
     grid.querySelectorAll<HTMLButtonElement>('[data-paper]').forEach((button) => {
       button.disabled = revealing || roundLocked || state.remaining.length < 2;
@@ -99,7 +100,7 @@ if (game) {
       state.history.length === 0
         ? ''
         : state.remaining.length === 1
-          ? state.remaining[0].label + ' 님이 마지막으로 남았어요.'
+          ? state.remaining[0].label + ' 님이 마지막으로 남아 자동으로 확정됐어요.'
           : '남은 참가자: ' + state.remaining.map(({ label }) => label).join(', ');
 
     history.textContent = state.history.length
@@ -162,9 +163,9 @@ if (game) {
       const lastPaper = grid.querySelector<HTMLButtonElement>('[data-paper="' + last.id + '"]');
 
       if (lastPaper) {
-        lastPaper.classList.add('paper-card--open');
+        lastPaper.classList.add('paper-card--open', 'paper-card--auto');
         lastPaper.textContent = last.label;
-        lastPaper.setAttribute('aria-label', last.label + ' 마지막 참가자');
+        lastPaper.setAttribute('aria-label', last.label + ' 마지막 자동 확정 참가자');
       }
     }
 
