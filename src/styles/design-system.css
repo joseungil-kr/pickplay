@@ -495,6 +495,23 @@
 
 /* G03 production: direct paper selection inside the Hybrid Dark Stage. */
 .game-shell--production:has(.paper-game) { max-width: 44rem; }
+/* G03 final polish: meta flow and auto-confirmed paper distinction. */
+.game-shell--production:has(.paper-game) .game-shell__game-info {
+  flex-wrap: wrap;
+  column-gap: var(--space-3);
+  row-gap: .25rem;
+}
+.game-shell--production:has(.paper-game) .game-shell__meta {
+  flex-wrap: nowrap;
+  gap: .375rem;
+  white-space: nowrap;
+}
+.game-shell--production:has(.paper-game) .game-shell__rules-details {
+  white-space: nowrap;
+}
+.game-shell--production:has(.paper-game) [data-paper-replay][hidden] {
+  display: none;
+}
 .game-shell--production:has(.paper-game) .paper-game { margin-top: 0; }
 .game-shell--production:has(.paper-game) .wheel-players li {
   min-height: 44px;
@@ -597,6 +614,17 @@
   animation-duration: var(--motion-reveal);
 }
 .game-shell--production:has(.paper-game) .paper-card--open::after { display: none; }
+.game-shell--production:has(.paper-game) .paper-card--auto,
+.game-shell--production:has(.paper-game) .paper-card--auto:disabled {
+  border-color: rgb(22 160 133 / 78%);
+  color: #0f7f70;
+  background: #fffdf5;
+  box-shadow: inset 0 0 0 2px rgb(22 160 133 / 18%);
+  animation: none;
+}
+.game-shell--production:has(.paper-game) .paper-card--auto::after {
+  display: block;
+}
 .game-shell--production:has(.paper-game) .game-stage__action:has(.paper-next[hidden]) {
   display: none;
 }
