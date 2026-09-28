@@ -1,6 +1,6 @@
-export interface WheelItem {
-  id: number;
-  label: string;
+import type { Participant } from './selectionState';
+
+export interface WheelItem extends Participant {
   color: string;
 }
 

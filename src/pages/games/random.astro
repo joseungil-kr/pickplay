@@ -1,0 +1,18 @@
+---
+import GameShell from '../../components/GameShell.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="랜덤 이름 뽑기 | PickPlay" description="이름을 넣고 필요한 인원을 간단히 뽑아보세요.">
+  <GameShell title="랜덤 이름 뽑기" description="이름을 넣고 필요한 인원을 바로 뽑아요." players="2명 이상" duration="약 30초" steps={['참가자 이름을 넣어요.', '뽑을 인원을 고르세요.', '뽑기 버튼을 눌러요.']} relatedGames={[{ name: '행운의 룰렛', description: '돌려서 한 명을 뽑아요.', href: '/play' }]}>
+    <div slot="settings" class="picker-game" data-random-picker>
+      <form class="wheel-form" data-picker-form><label for="picker-name">참가자 이름</label><div class="wheel-form__row"><input id="picker-name" data-picker-input type="text" maxlength="16" placeholder="예: 민지" autocomplete="off" /><button class="button button--secondary" type="submit">추가</button></div></form>
+      <ul class="wheel-players" data-picker-list aria-label="참가자 목록"></ul>
+      <div class="picker-options"><label>뽑을 인원 <select data-picker-count><option value="1">한 명</option><option value="2">두 명</option><option value="3">세 명</option></select></label><label class="wheel-exclude"><input data-picker-exclude type="checkbox" checked /> 당첨자를 다음 뽑기에서 제외</label></div>
+    </div>
+    <div slot="game" class="picker-stage"><span aria-hidden="true">?</span><p>누가 뽑힐까요?</p><button class="button button--primary" type="button" data-picker-pick>뽑기</button></div>
+    <div slot="result"><div class="wheel-result" data-picker-result aria-live="polite"></div><p class="picker-remaining" data-picker-remaining aria-live="polite"></p><p class="wheel-history" data-picker-history aria-live="polite"></p></div>
+    <div slot="actions" class="wheel-actions"><button class="button button--secondary game-shell__action" type="button" data-picker-replay>다시 하기</button></div>
+  </GameShell>
+  <script src="../../scripts/random-picker-game.ts"></script>
+</BaseLayout>

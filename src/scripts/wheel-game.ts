@@ -1,13 +1,6 @@
 import { WheelRenderer, type WheelItem } from './WheelRenderer';
-
+import { addParticipant, recordWinner, removeParticipant, resetDraw, type DrawState } from './selectionState';
 type Participant = WheelItem;
-type DrawState = {
-  participants: Participant[];
-  remaining: Participant[];
-  history: Participant[];
-  currentWinner: Participant | null;
-};
-
 const palette = ['#155eef', '#e85d04', '#087968', '#7c3aed', '#c2410c', '#0f766e', '#be123c', '#4d7c0f', '#0369a1', '#a16207', '#6d28d9', '#9f1239', '#1d4ed8', '#b45309', '#047857', '#9d174d', '#4338ca', '#15803d', '#ea580c', '#0e7490', '#9333ea', '#ca8a04', '#0f766e', '#a21caf'];
 
 const game = document.querySelector<HTMLElement>('[data-wheel-game]');
@@ -26,7 +19,7 @@ if (game) {
   const renderer = new WheelRenderer(document.querySelector<HTMLCanvasElement>('[data-wheel-canvas]')!);
   let nextId = 0;
   let spinning = false;
-  let state: DrawState = { participants: [], remaining: [], history: [], currentWinner: null };
+  let state: DrawState<Participant> = { participants: [], remaining: [], history: [], currentWinner: null };
 
   const participant = (label: string): Participant => ({ id: nextId, label, color: palette[nextId++ % palette.length] });
   const addInitial = ['민지', '준호', '서연'].map(participant);
@@ -80,7 +73,7 @@ if (game) {
     const label = input.value.trim().slice(0, 16);
     if (!label || spinning) return;
     const item = participant(label);
-    state = { ...state, participants: [...state.participants, item], remaining: [...state.remaining, item] };
+    state = addParticipant(state, item);
     input.value = '';
     renderState();
     input.focus();
@@ -90,11 +83,7 @@ if (game) {
     const button = (event.target as HTMLElement).closest<HTMLButtonElement>('[data-remove]');
     if (!button || spinning) return;
     const id = Number(button.dataset.remove);
-    state = {
-      ...state,
-      participants: state.participants.filter((item) => item.id !== id),
-      remaining: state.remaining.filter((item) => item.id !== id),
-    };
+    state = removeParticipant(state, id);
     renderState();
   });
 
@@ -111,16 +100,7 @@ if (game) {
     const winnerIndex = values[0] % state.remaining.length;
     const winner = state.remaining[winnerIndex];
     await renderer.spinTo(winnerIndex);
-    const nextRemaining = excludeWinner ? state.remaining.filter((item) => item.id !== winner.id) : state.remaining;
-    const nextHistory = excludeWinner && nextRemaining.length === 1
-      ? [...state.history, winner, nextRemaining[0]]
-      : [...state.history, winner];
-    state = {
-      ...state,
-      currentWinner: winner,
-      history: nextHistory,
-      remaining: nextRemaining,
-    };
+    state = recordWinner(state, winner, excludeWinner);
     spinning = false;
     excludeInput.disabled = false;
     renderResult(winner, excludeWinner);
@@ -129,7 +109,7 @@ if (game) {
 
   replayButton.addEventListener('click', () => {
     if (spinning) return;
-    state = { ...state, remaining: [...state.participants], history: [], currentWinner: null };
+    state = resetDraw(state);
     renderer.reset();
     renderResult();
     renderState();
