@@ -1,0 +1,29 @@
+{
+  "name": "PickPlay Codespaces",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:1-22-bookworm",
+  "postCreateCommand": "npm ci && npm run typecheck && npm run build",
+  "postStartCommand": "git config core.quotePath false",
+  "forwardPorts": [4321, 8788],
+  "portsAttributes": {
+    "4321": {
+      "label": "Astro Dev Server",
+      "onAutoForward": "notify"
+    },
+    "8788": {
+      "label": "Cloudflare Wrangler",
+      "onAutoForward": "silent"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "openai.chatgpt"
+      ],
+      "settings": {
+        "files.encoding": "utf8",
+        "files.eol": "\n",
+        "terminal.integrated.defaultProfile.linux": "bash"
+      }
+    }
+  }
+}
