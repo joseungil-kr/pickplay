@@ -478,3 +478,17 @@
 .game-shell--production .game-stage .wheel-status { margin: 0; color: var(--pp-stage-text-muted); font-size: .8125rem; }
 .game-shell--production .game-stage__result:not(:empty) { margin-top: var(--pp-space-2); }
 .game-shell--production .wheel-result strong { padding: .25rem .5rem; }
+/* G02 production: text-switching draw, scoped away from G01/G03. */
+.game-shell--production:has(.picker-game) .wheel-players li { min-height:44px; padding:.25rem .25rem .25rem .625rem; border-radius:9px; }
+.game-shell--production:has(.picker-game) .wheel-players button { min-width:32px; min-height:32px; padding:0; border-radius:50%; font-size:1.25rem; line-height:1; }
+.game-shell--production:has(.picker-game) .picker-options { gap:.5rem; margin-top:.75rem; }
+.game-shell--production:has(.picker-game) .picker-options > label:first-child { max-width:14rem; }
+.game-shell--production:has(.picker-game) .game-stage__utility { min-height:1.25rem; text-align:center; }
+.picker-status { margin:0; color:var(--pp-stage-text-muted); font-size:.8125rem; }
+.game-stage .picker-stage { min-height:9rem; margin:0; padding:0; border:0; color:var(--pp-stage-text); }
+.picker-candidate { margin:0; color:var(--pp-stage-text); font-size:clamp(2rem,11vw,3.25rem); font-weight:800; letter-spacing:-.06em; }
+.game-stage .picker-stage + * { width:100%; }
+.game-shell--production:has(.picker-game) .game-stage__action .button { width:100%; min-height:52px; border-radius:var(--pp-radius-control); }
+.game-shell--production:has(.picker-game) .picker-remaining { color:var(--pp-stage-text); }
+.game-shell--production:has(.picker-game) .wheel-result strong { border-color:rgb(255 200 87 / 55%); color:var(--pp-win); background:rgb(255 200 87 / 10%); }
+@media(min-width:48rem){.game-shell--production:has(.picker-game){max-width:44rem}.game-shell--production:has(.picker-game) .game-stage__action .button{max-width:26rem}}
